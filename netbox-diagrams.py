@@ -21,8 +21,16 @@ for connection in connections:
     device_names.append(connection.interface_b.device.name)
 device_names = unique_list(device_names)
 
+role_y = {'mpls p': 0, 'mpls pe': 1, 'management': 2, 'firewall': 2}
+netbox_devices = {}
+for d in device_names:
+    netbox_d = nb.dcim.devices.get(name=d)
+    netbox_devices[d] = {}
+    netbox_devices[d]['y'] = role_y[netbox_d.device_role.name]
+
 j2_env = Environment(loader=FileSystemLoader('templates'),
                         trim_blocks=True)
 
 template = j2_env.get_template('template.j2')
-rendered_template = template.render(devices=device_names, interfaces=connections)
+rendered_template = template.render(devices=netbox_devices, interfaces=connections)
+print(rendered_template)

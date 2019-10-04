@@ -31,10 +31,10 @@ servers: &servers
   fill: "#58585B"
   icon: "webserver"
 icons:
-{% set xy = namespace(a=0) %}
-{%- for device in devices %}
-  {{ device }}: {<<: *cisco, x: {{ xy.a }}, y: {{ xy.a }}, icon: "router"}
-{% set xy.a = xy.a + 1 %}
+{% set x = namespace(a=0) %}
+{%- for key, value in devices.items() %}
+  {{ key }}: {<<: *cisco, x: {{ x.a }}, y: {{ value.y }}, icon: "router"}
+{% set x.a = x.a + 1 %}
 {% endfor %}
 connection:
   &connection
