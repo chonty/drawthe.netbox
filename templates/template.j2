@@ -1,0 +1,47 @@
+diagram:
+  fill: "#ffffff"
+  #columns: 5
+  #rows: 5
+  gridLines: false
+title:
+  color: lightgrey
+  heightPercentage: 6
+  logoFill: lightgrey
+  stroke: lightgrey
+  subText: "A sample diagram showing various style and icon types."
+  text: "Sample Diagram"
+  type: "bar"
+defaults: &defaults
+  color: "white"
+  fill: "#555555"
+  iconFamily: "azureEnterprise"
+  iconFill: "white"
+  iconStroke: "none"
+  stroke: "none"
+cisco: &cisco
+  color: "#004BAF"
+  fill: "white"
+  iconFamily: "cisco"
+  iconFill: "#004BAF"
+  iconStrokeWidth: .25
+  stroke: "#004BAF"
+  preserveWhite: true
+servers: &servers
+  <<: *defaults
+  fill: "#58585B"
+  icon: "webserver"
+icons:
+{% set xy = namespace(a=0) %}
+{%- for device in devices %}
+  {{ device }}: {<<: *cisco, x: {{ xy.a }}, y: {{ xy.a }}, icon: "router"}
+{% set xy.a = xy.a + 1 %}
+{% endfor %}
+connection:
+  &connection
+  color: "black"
+  stroke: "black"
+  strokeDashArray: "10,2"
+connections:
+{% for interface in interfaces %}
+  - { <<: *connection, endpoints: ["{{ interface.interface_a.device.name }}:{{ interface.interface_a.name }}", "{{ interface.interface_b.device.name }}:{{ interface.interface_b.name }}"] }
+{% endfor %}
