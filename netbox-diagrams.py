@@ -10,6 +10,7 @@ def unique_list(l):
             x.append(a)
     return x
 
+# TODO: define externally
 nb = pynetbox.api(
     'http://192.168.111.50',
     token='8f0c6b37619e23dd6223e4df3efc76bb1cd18da4')
@@ -21,6 +22,7 @@ for connection in connections:
     device_names.append(connection.interface_b.device.name)
 device_names = unique_list(device_names)
 
+# TODO: define externally
 role_y = {'mpls p': 0, 'mpls pe': 1, 'management': 2, 'firewall': 2}
 netbox_devices = {}
 for d in device_names:
